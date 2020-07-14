@@ -90,6 +90,14 @@ class BorderToolBar {
 
       this._toolbar.dispatchEvent(e);
     });
+    button.addEventListener('mouseenter', (event) => {
+      event.stopPropagation();
+      console.log("Highlight the row or column");
+    });
+    button.addEventListener('mouseleave', (event) => {
+      event.stopPropagation();
+      console.log("Un-highlight the active row or column");
+    });
     return button;
   }
 
@@ -99,7 +107,7 @@ class BorderToolBar {
    * Generates line which сover border of _table
    */
   _generateHighlightingLine() {
-    const line = create('div', [CSS.highlightingLine]);
+    const line = create('div', [ CSS.highlightingLine ]);
 
     line.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -120,9 +128,9 @@ class BorderToolBar {
     const bar = create('div', [CSS.hidden], null, children);
 
     bar.addEventListener('mouseleave', (event) => {
-        this._recalcMousePos(event);
-      }
-    );
+      this._recalcMousePos(event);
+      console.log("left the toolbar!");
+    });
 
     return bar;
   }

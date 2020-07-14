@@ -317,7 +317,7 @@ export class TableConstructor {
    *
    * Leaves the PlusButton active under mouse
    * The timer gives time to press the button again, before it disappears.
-   * While the button is being pressed, the timer will be reset
+   * While the button is being pessed, the timer will be reset
    * @param {number} coord - coords of mouse. x or y depending on the grade of the toolbar
    */
   _delayAddButtonForMultiClickingNearMouse(coord) {
@@ -375,8 +375,6 @@ export class TableConstructor {
    * Adds column in table
    */
   _addColumn() {
-    let index = this._getHoveredSideOfContainer();
-
     if (index === 1) {
       index = this._hoveredCell.cellIndex;
       // if inserting after hovered cell
@@ -386,21 +384,22 @@ export class TableConstructor {
     this._table.addColumn(index);
   }
 
-    /**
+  /**
    * Removes row in table
    * @private
    */
   _removeRow() {
-    const indicativeRow = this._hoveredCell.closest('TR');
-    let index = this._getHoveredSideOfContainer();
-
-    if (index === 1) {
-      index = indicativeRow.sectionRowIndex;
-      // if inserting after hovered cell
-      index = index + this._isBottomOrRight();
+    if (!this._hoveredCell) {
+      return;
     }
 
-    this._table.removeRow(index-1);
+    const row = this._hoveredCell.closest('TR');
+
+    if (!row) {
+      return;
+    }
+
+    this._table.removeRow(row.sectionRowIndex);
   }
 
   /**
@@ -409,18 +408,12 @@ export class TableConstructor {
    * Removes column in table
    */
   _removeColumn() {
-    let index = this._getHoveredSideOfContainer();
-
-    if (index === 1) {
-      index = this._hoveredCell.cellIndex;
-      // if inserting after hovered cell
-      index = index + this._isBottomOrRight();
+    if (!this._hoveredCell) {
+      return;
     }
 
-    this._table.removeColumn(index-1);
+    this._table.removeColumn(this._hoveredCell.cellIndex);
   }
-
-
 
   /**
    * @private
