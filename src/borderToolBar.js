@@ -92,11 +92,9 @@ class BorderToolBar {
     });
     button.addEventListener('mouseenter', (event) => {
       event.stopPropagation();
-      console.log("Highlight the row or column");
     });
     button.addEventListener('mouseleave', (event) => {
       event.stopPropagation();
-      console.log("Un-highlight the active row or column");
     });
     return button;
   }
@@ -129,7 +127,6 @@ class BorderToolBar {
 
     bar.addEventListener('mouseleave', (event) => {
       this._recalcMousePos(event);
-      console.log("left the toolbar!");
     });
 
     return bar;
