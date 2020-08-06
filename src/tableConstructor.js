@@ -259,7 +259,6 @@ export class TableConstructor {
     }
     let typeCoord;
 
-
     if(event.detail.button == 'plus'){
       if (this._activatedToolBar === this._horizontalToolBar) {
         this._addRow();
@@ -390,17 +389,15 @@ export class TableConstructor {
    * @private
    */
   _removeRow() {
-    if (!this._hoveredCell) {
-      return;
+    let index = this._getHoveredSideOfContainer();
+
+    if (index === 1) {
+      const row = this._hoveredCell.closest('TR');
+      const rowIndex = row.sectionRowIndex;
+      index = rowIndex;
     }
 
-    const row = this._hoveredCell.closest('TR');
-
-    if (!row) {
-      return;
-    }
-
-    this._table.removeRow(row.sectionRowIndex);
+    this._table.removeRow(index);
   }
 
   /**

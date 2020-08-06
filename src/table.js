@@ -68,14 +68,25 @@ export class Table {
     return row;
   };
 
-   /**
+  /**
    * Remove row in table on index place
    * @param {number} index - number in the array of columns, where new column to insert,-1 if insert at the end
    * @return {HTMLElement} row
    */
   removeRow(index = -1) {
+    if (this._numberOfRows === 0) {
+      return;
+    }
+
+    const lastIndex = this._numberOfRows - 1;
+
+    if (index > lastIndex) {
+      index = lastIndex;
+    }
+
     this._numberOfRows--;
     const row = this._table.deleteRow(index);
+
     return row;
   };
 
