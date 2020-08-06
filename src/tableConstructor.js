@@ -259,7 +259,6 @@ export class TableConstructor {
     }
     let typeCoord;
 
-
     if(event.detail.button == 'plus'){
       if (this._activatedToolBar === this._horizontalToolBar) {
         this._addRow();
@@ -269,6 +268,7 @@ export class TableConstructor {
         typeCoord = 'x';
       }
     }
+
     if(event.detail.button == 'minus'){
       if (this._activatedToolBar === this._horizontalToolBar) {
         this._removeRow();
@@ -278,9 +278,6 @@ export class TableConstructor {
         typeCoord = 'x';
       }
     }
-
-
-
 
     /** If event has transmitted data (coords of mouse) */
     const detailHasData = isNaN(event.detail) && event.detail !== null;
@@ -337,7 +334,7 @@ export class TableConstructor {
    */
   _getHoveredSideOfContainer() {
     if (this._hoveredCell === this._container) {
-      return this._isBottomOrRight() ? 0 : -1;
+      return this._isBottomOrRight() ? -1 : 0;
     }
     return 1;
   }
@@ -378,29 +375,29 @@ export class TableConstructor {
     let index = this._getHoveredSideOfContainer();
 
     if (index === 1) {
-      index = this._hoveredCell.cellIndex;
+      const cellIndex = this._hoveredCell.cellIndex;
       // if inserting after hovered cell
-      index = index + this._isBottomOrRight();
+      const bottomRightOffset = this._isBottomOrRight() ? 1 : 0;
+      index = cellIndex + bottomRightOffset;
     }
 
     this._table.addColumn(index);
   }
 
-    /**
+  /**
    * Removes row in table
    * @private
    */
   _removeRow() {
-    const indicativeRow = this._hoveredCell.closest('TR');
     let index = this._getHoveredSideOfContainer();
 
     if (index === 1) {
-      index = indicativeRow.sectionRowIndex;
-      // if inserting after hovered cell
-      index = index + this._isBottomOrRight();
+      const row = this._hoveredCell.closest('TR');
+      const rowIndex = row.sectionRowIndex;
+      index = rowIndex;
     }
 
-    this._table.removeRow(index-1);
+    this._table.removeRow(index);
   }
 
   /**
@@ -409,18 +406,12 @@ export class TableConstructor {
    * Removes column in table
    */
   _removeColumn() {
-    let index = this._getHoveredSideOfContainer();
-
-    if (index === 1) {
-      index = this._hoveredCell.cellIndex;
-      // if inserting after hovered cell
-      index = index + this._isBottomOrRight();
+    if (!this._hoveredCell) {
+      return;
     }
 
-    this._table.removeColumn(index-1);
+    this._table.removeColumn(this._hoveredCell.cellIndex);
   }
-
-
 
   /**
    * @private
