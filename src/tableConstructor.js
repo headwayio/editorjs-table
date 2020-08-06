@@ -315,7 +315,7 @@ export class TableConstructor {
    *
    * Leaves the PlusButton active under mouse
    * The timer gives time to press the button again, before it disappears.
-   * While the button is being pessed, the timer will be reset
+   * While the button is being pressed, the timer will be reset
    * @param {number} coord - coords of mouse. x or y depending on the grade of the toolbar
    */
   _delayAddButtonForMultiClickingNearMouse(coord) {
@@ -335,7 +335,7 @@ export class TableConstructor {
    */
   _getHoveredSideOfContainer() {
     if (this._hoveredCell === this._container) {
-      return this._isBottomOrRight() ? 0 : -1;
+      return this._isBottomOrRight() ? -1 : 0;
     }
     return 1;
   }
@@ -376,9 +376,10 @@ export class TableConstructor {
     let index = this._getHoveredSideOfContainer();
 
     if (index === 1) {
-      index = this._hoveredCell.cellIndex;
+      const cellIndex = this._hoveredCell.cellIndex;
       // if inserting after hovered cell
-      index = index + this._isBottomOrRight();
+      const bottomRightOffset = this._isBottomOrRight() ? 1 : 0;
+      index = cellIndex + bottomRightOffset;
     }
 
     this._table.addColumn(index);
