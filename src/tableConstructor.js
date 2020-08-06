@@ -269,6 +269,7 @@ export class TableConstructor {
         typeCoord = 'x';
       }
     }
+
     if(event.detail.button == 'minus'){
       if (this._activatedToolBar === this._horizontalToolBar) {
         this._removeRow();
@@ -278,9 +279,6 @@ export class TableConstructor {
         typeCoord = 'x';
       }
     }
-
-
-
 
     /** If event has transmitted data (coords of mouse) */
     const detailHasData = isNaN(event.detail) && event.detail !== null;
@@ -375,6 +373,8 @@ export class TableConstructor {
    * Adds column in table
    */
   _addColumn() {
+    let index = this._getHoveredSideOfContainer();
+
     if (index === 1) {
       index = this._hoveredCell.cellIndex;
       // if inserting after hovered cell
